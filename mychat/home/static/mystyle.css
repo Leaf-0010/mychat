@@ -1,0 +1,43 @@
+/* 重置默认样式 */
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    background-image: url('../static/logo.png'); /* 整个背景图片路径 */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.left-column, .right-column {
+    flex: 1;
+    background-color: transparent; /* 左右列透明背景 */
+}
+
+.middle-column {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.8); /* 中间列的背景颜色，设置透明度 */
+}
+
+.top-section {
+    background-color: #f0f0f0; /* 上部背景颜色 */
+    padding: 20px;
+}
+
+.middle-section {
+    flex-grow: 1;
+    overflow-y: auto; /* 当内容溢出时显示滚动条 */
+    padding: 20px;
+}
+
+.bottom-section {
+    background-color: #f0f0f0; /* 下部背景颜色 */
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
