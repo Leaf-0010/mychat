@@ -1,0 +1,16 @@
+students:学生记录，学号:sid(int)，姓名:sname(char)，班级:class(char)，年龄:age(int)，性别:sex(char)，程序设计:prog(int)，软件工程:soft(int)，人工智能:inte(int)，数据挖掘:data(int)
+studinfo:学生信息，学号:sid(int)，姓名:sname(char)，年级:grade(char)，班级:class(char)，年龄:sage(int)，性别:sex(char)，住址:address(char)，电话:tel(char)，邮箱:email(char)，身高:heigth(int)，体重:weigth(int)
+courseinfo:课程信息，课程号:cid(int)，课程名:cname(char)，前导课:pre(char)，地点:caddress(char)，开始周:startw(int)，结束周:endw(int)，课程时间:ctime(char)
+selecourse:选课记录，课程号:cid(int)，学号:sid(int)，备注:memo(char)，要求:require(char)，学费:payment(int)
+employee:职员信息，工号:eid(int)，姓名:name(char)，部门:depart(char)，年龄:age(int)，性别:sex(char)，工龄:workyeas(int)，基本工资:bsalary(int)，奖金:psalary(int)，补贴:butie(int)
+departinfo:部门信息，部门号:departid(int)，部门名:dname(char)，地址:address(char)，电话:tel(char)，邮箱:email(char)，员工数:enum(int)，干部数:gnum(int)，收入:total_income(int)，利润:profit(int)
+company:公司列表，公司号:cid(int)，公司名:cname(char)，地点:caddress(char)，电话:tel(char)，邮箱:email(char)，员工数:enum(int)，部门数:depart_num(int)，产品数:pnum(int)，收入:total_income(int)，利润:profit(int)
+book:书籍信息，书号:bid(int)，书名:bname(char)，类别:class(char)，买入价格:buyprice(int)，作者:author(char)，卖出价格:sellprice(int)，销售数量:sell_num(int)，购入数量:buy_num(int)，出版年份:pyear(int)，出版社:punit(char)
+product:商品库，货号:pid(int)，商品名:pname(char)，类别:class(char)，买入价格:buyprice(int)，供货商:provider(char)，卖出价格:sellprice(int)，销售数量:sell_num(int)，购入数量:buy_num(int)，生产年份:pyear(int)，保质期:period(int)
+user:用户列表，用户号:uid(int)，用户名:uname(char)，姓名:name(char)，密码:pass(char)，权限:provilige(char)，发帖数:postnum(int)，好评数:goodnum(int)，好友数:friendnum(int)，差评数:poornum(int)
+sales:销售记录，销售单号:sid(int)，货号:pid(int)，销售类别:class(char)，销售价格:price(int)，销售数量:sellnum(int)，销售时间:stime(char)，打折率:rate(int)
+school:学校列表，校号:sid(int)，学校名:sname(char)，地点:caddress(char)，电话:tel(char)，邮箱:email(char)，教师数:tnum(int)，学生数:snum(int)，年级数:gnum(int)
+teacher:教师信息，工号:tid(int)，姓名:name(char)，住址:address(char)，电话:tel(char)，邮箱:email(char)，学院:school(char)，年龄:age(int)，性别:sex(char)，工龄:workyear(int)，基本工资:bsalary(int)，奖金:psalary(int)
+item:零件信息，零件号:iid(int)，零件名:iname(char)，类别:class(char)，规格:regu(char)，供货商:provider(char)，价格:sprice(int)，数量:num(int)，生产年份:pyear(int)
+
+
