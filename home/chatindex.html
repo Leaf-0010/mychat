@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Developer Chat</title>
+    <style>
+        /* 重置默认样式 */
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+td{
+	font-size: 9pt;	color: #000000;
+	padding:5px;
+}
+
+input{
+	font-family: "宋体";
+	font-size: 9pt;
+	color: #333333;
+	border: 1px solid #999999;
+
+}
+
+hr{
+	border-style:solid;
+	height:1px;
+	color:#CCCCCC;
+}
+
+.container {
+    display: flex;
+    background-image: url('../static/bg.png'); /* 整个背景图片路径 */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.btn-style {
+    font-size: 18px; /* 设置按钮文字的字体大小 */
+    font-family: Arial, sans-serif; /* 设置按钮文字的字体样式 */
+    color: #ffffff; /* 设置按钮文字的颜色 */
+    background-color: #37daf7; /* 设置按钮的背景颜色 */
+    padding: 8px 10px; /* 设置按钮的内边距 */
+    border: 2px solid #cccccc; /* 设置按钮的边框样式、宽度和颜色 */
+    border-radius: 8px; /* 设置按钮的边框圆角 */
+    cursor: pointer; /* 鼠标悬停时显示指针 */
+}
+
+.btn-style:hover {
+    background-color: #76e8fc; /* 设置鼠标悬停时按钮的背景颜色 */
+}
+
+.textarea-style {
+    /* 其他样式属性 */
+    font-family: Arial, sans-serif; /* 设置字体样式 */
+    font-size: 16px; /* 设置字体大小 */
+    color: #333333; /* 设置字体颜色 */
+
+    border: 1px solid #999999; /* 设置边框的样式、宽度和颜色 */
+    border-radius: 5px; /* 设置边框的圆角 */
+}
+
+.textarea-style:focus {
+    outline: none; /* 去除文本框获取焦点时的默认边框样式 */
+    border-color: #000000; /* 设置文本框获取焦点时的边框颜色 */
+}
+
+.left-column{
+    flex: 0.5;
+    background-color: transparent; /* 左右列透明背景 */
+}
+
+.middle-column {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.8); /* 中间列的背景颜色，设置透明度 */
+    min-height: 780px; /* 设置中间部分的最小高度，根据需要调整数值 */
+}
+
+.top-section {
+    background-color: transparent; /* 上部背景颜色 */
+    padding: 20px;
+}
+
+.middle-section {
+    flex-grow: 1;
+    background-color: #F0F0F0;
+    min-height: 587px;
+    overflow-y: auto; /* 当内容溢出时显示滚动条 */
+    padding: 20px;
+}
+
+
+.right-column {
+    flex: 0.5;
+    background-color: transparent; /* 左右列透明背景 */
+}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-column"></div>
+        <div class="middle-column">
+            <div class="top-section">
+                <!-- Logo和标题内容放在这里 -->
+                <table border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#666666">
+                    <tr>
+                        <td width="20%" align="center" bgcolor="#FFFFFF"><img src="../static/logo.png" alt="Logo" width="100px" height="100px"></td>
+                        <td width="80%" align="center" bgcolor="#FFFFFF"><h2> Welcome to myChat</h2>   </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div id="app">
+            <div class="middle-section">
+                <!-- 表格内容放在这里 -->
+                <table width="800" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#FFFFFF" bordercolorlight="#666666" bordercolordark="#FFFFFF" id="comment">
+                    <tr>
+                        <th width="7%" height="27" align="center" bgcolor="#E5BB93"></th>
+                        <th width="93%" align="center" bgcolor="#E5BB93">问答内容</th>
+                    </tr>
+                </table>
+                <form name="form1" method="post" action="">
+                    <table width="800" height="468" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="100" height="14">&nbsp;</td>
+                            <td width="700">&nbsp;</td>
+                        </tr>
+                        <tr hidden="true">
+                            <td height="27" align="center">评 论 人：</td>
+                            <td>
+                                <input name="person" type="text" id="person" size="40">
+                            </td>
+                        </tr>
+                    </table>
+
+                <table cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td align="left">提问内容：</td>
+                        <td><textarea class="textarea-style" name="content" cols="80" rows="2" id="content"></textarea></td>
+                        <td align="center" width="90"><button class="btn-style" @click.prevent="answerQuestion" type="submit" width="20">提交</button></td>
+                    </tr>
+                </table>
+                </form>
+            </div>
+
+        </div>
+        </div>
+        <div class="right-column"></div>
+    </div>
+
+</body>
+
+<script src="../static/vue.min.js"></script>
+<script src="../static/axios.min.js"></script>
+<script type="text/javascript">
+  var vm = new Vue({
+    el:'#app',
+    data:{
+      content:"",  //提问内容
+      answers:"",  //答案
+      results:[]  //搜索结果
+    },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+    },
+    methods:{
+      getanswer(){
+        var content = this.content;
+        return axios.request({
+            method: "POST",
+            url:"http://localhost:8000/getanswer/",
+            data:{content:this.content}
+        })
+      },
+	async sygetanswer(){
+		let response=await this.getanswer()
+		this.answers=response.data
+	},
+	addQuestion() {
+		this.content=form1.content.value
+		console.log(this.content);
+		//创建TextNode节点
+		//var person = document.createTextNode(form1.person.value);
+		var person = document.createElement("img");
+		person.src="../static/hamster.png"
+		person.width=40
+		person.height=40
+		var content = document.createTextNode(form1.content.value);
+		//创建td类型的Element节点
+		var td_person = document.createElement("td");
+		td_person.align="center"
+		td_person.height="27"
+		var td_content = document.createElement("td");
+		var tr = document.createElement("tr"); //创建一个tr类型的Element节点
+		var tbody = document.createElement("tbody"); //创建一个tbody类型的Element节点
+		//将TextNode节点加入到td类型的节点中
+		td_person.appendChild(person);
+		td_content.appendChild(content);
+		//将td类型的节点添加到tr节点中
+		tr.appendChild(td_person);
+		tr.appendChild(td_content);
+		tbody.appendChild(tr); //将tr节点加入tbody中
+		var tComment = document.getElementById("comment"); //获取table对象
+		tComment.appendChild(tbody); //将节点tbody加入节点尾部
+		form1.person.value="";	//清空评论人文本框
+		form1.content.value="";		//清空评论内容文本框
+
+	},
+	addAnswer() {
+        var answers = this.answers.split('\n'); // 将答案列表拆分成单独的答案数组
+
+  for (var i = 0; i < answers.length - 1; i++) {
+    var answer = answers[i].trim(); // 去除答案前后的空格
+
+    // 创建img节点
+    var person = document.createElement("img");
+    person.src = "../static/robot.png";
+    person.width = 40;
+    person.height = 40;
+
+    // 创建答案内容节点
+    var content = document.createTextNode(answer);
+
+    // 创建td类型的Element节点
+    var td_person = document.createElement("td");
+    td_person.align = "center";
+    td_person.height = "27";
+
+    var td_content = document.createElement("td");
+
+    var tr = document.createElement("tr"); // 创建一个tr类型的Element节点
+    tr.bgcolor = "#666666";
+
+    // 将节点加入到td类型的节点中
+    td_person.appendChild(person);
+    td_content.appendChild(content);
+
+    // 将td类型的节点添加到tr节点中
+    tr.appendChild(td_person);
+    tr.appendChild(td_content);
+
+    var tbody = document.createElement("tbody"); // 创建一个tbody类型的Element节点
+    tbody.appendChild(tr); // 将tr节点加入tbody中
+
+    var blank_tr = document.createElement("tr");
+    blank_tr.border = "0";
+    tbody.appendChild(blank_tr);
+
+    var tComment = document.getElementById("comment"); // 获取table对象
+    tComment.appendChild(tbody); // 将节点tbody加入节点尾部
+  }
+},
+
+<!--	addAnswer() {-->
+<!--		//创建TextNode节点-->
+<!--		//var person = document.createTextNode(form1.person.value);-->
+<!--		var person = document.createElement("img");-->
+<!--		person.src="../static/robot.png"-->
+<!--		person.width=40-->
+<!--		person.height=40-->
+<!--		console.log("in addanswer");-->
+<!--            console.log(this.answers);-->
+<!--		var content = document.createTextNode(this.answers);-->
+<!--		//创建td类型的Element节点-->
+<!--		var td_person = document.createElement("td");-->
+<!--		td_person.align="center"-->
+<!--		td_person.height="27"-->
+<!--		var td_content = document.createElement("td");-->
+<!--		var tr = document.createElement("tr"); //创建一个tr类型的Element节点-->
+<!--		tr.bgcolor="#666666"-->
+<!--		var tbody = document.createElement("tbody"); //创建一个tbody类型的Element节点-->
+<!--		//将TextNode节点加入到td类型的节点中-->
+<!--		td_person.appendChild(person);-->
+<!--		td_content.appendChild(content);-->
+<!--		//将td类型的节点添加到tr节点中-->
+<!--		tr.appendChild(td_person);-->
+<!--		tr.appendChild(td_content);-->
+<!--		tbody.appendChild(tr); //将tr节点加入tbody中-->
+<!--		var blank_tr=document.createElement("tr");-->
+<!--		blank_tr.border="0"-->
+<!--		tbody.appendChild(blank_tr);-->
+<!--		var tComment = document.getElementById("comment"); //获取table对象-->
+<!--		tComment.appendChild(tbody); //将节点tbody加入节点尾部-->
+
+<!--	},-->
+
+	fnA(){
+		this.sygetanswer();
+		console.log(this.answers);
+		this.addAnswer();
+	},
+	answerQuestion() {
+		this.addQuestion();
+		this.sygetanswer();
+		setTimeout(this.fnA, 20000);
+            //console.log(this.answers);
+		//this.addAnswer();
+	}
+    }
+  })
+</script>
+</html>
